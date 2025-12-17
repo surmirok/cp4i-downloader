@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CP4I Downloader - Web Interface</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <h1><i class="fas fa-cloud-download-alt"></i> CP4I Component Downloader</h1>
+                <p class="subtitle">Web Interface v2.0.0</p>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-secondary" onclick="showSystemInfo()">
+                    <i class="fas fa-info-circle"></i> System Info
+                </button>
+                <button class="btn btn-secondary" onclick="showConfig()">
+                    <i class="fas fa-cog"></i> Configuration
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="showTab('new-download')">
+                    <i class="fas fa-plus-circle"></i> New Download
+                </button>
+                <button class="tab-btn" onclick="showTab('active-downloads')">
+                    <i class="fas fa-spinner"></i> Active Downloads
+                    <span class="badge" id="active-count">0</span>
+                </button>
+                <button class="tab-btn" onclick="showTab('history')">
+                    <i class="fas fa-history"></i> History
+                </button>
+            </div>
+
+            <!-- Tab Content: New Download -->
+            <div id="new-download" class="tab-content active">
+                <div class="card">
+                    <h2><i class="fas fa-download"></i> Start New Download</h2>
+                    
+                    <form id="download-form" onsubmit="startDownload(event)">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="component">
+                                    <i class="fas fa-cube"></i> Component *
+                                </label>
+                                <select id="component" name="component" required onchange="updateVersions()">
+                                    <option value="">Select a component...</option>
+                                </select>
+                                <small class="help-text">Select the CP4I component to download</small>
+                            </div>
+
+                                                        <div class="form-group">
+                                <label for="version">
+                                    <i class="fas fa-tag"></i> Version *
+                                </label>
+                                <input type="text" id="version" name="version" required 
+                                       list="version-list" placeholder="e.g., 7.3.2 or select from list">
+                                <datalist id="version-list">
+                                </datalist>
+                                <small class="help-text">Select from list or enter custom version</small>
+                            </div></search>
+</search_and_replace>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="name">
+                                    <i class="fas fa-folder"></i> Directory Name *
+                                </label>
+                                <input type="text" id="name" name="name" required
+                                       placeholder="e.g., pn-7.3.2">
+                                <small class="help-text">Local directory name for download</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="filter">
+                                    <i class="fas fa-filter"></i> Filter (Optional)
+                                </label>
+                                <input type="text" id="filter" name="filter"
+                                       placeholder="e.g., .*management.*">
+                                <small class="help-text">Regex pattern to filter manifests</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="home-dir">
+                                    <i class="fas fa-home"></i> Home Directory *
+                                </label>
+                                <input type="text" id="home-dir" name="home_dir" required
+                                       value="/opt/cp4i" placeholder="/opt/cp4i">
+                                <small class="help-text">Base directory for downloads</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="final-registry">
+                                    <i class="fas fa-server"></i> Final Registry *
+                                </label>
+                                <input type="text" id="final-registry" name="final_registry" required
+                                       value="registry.example.com:5000"
+                                       placeholder="registry.example.com:5000">
+                                <small class="help-text">Target registry URL</small>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="registry-auth-file">
+                                    <i class="fas fa-key"></i> Registry Auth File *
+                                </label>
+                                <input type="text" id="registry-auth-file" name="registry_auth_file" required
+                                       value="/root/.docker/config.json"
+                                       placeholder="/root/.docker/config.json">
+                                <small class="help-text">Path to Docker config.json</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="entitlement-key">
+                                    <i class="fas fa-lock"></i> Entitlement Key (Optional)
+                                </label>
+                                <input type="password" id="entitlement-key" name="entitlement_key"
+                                       placeholder="Enter your IBM entitlement key">
+                                <small class="help-text">IBM Cloud Pak entitlement key (optional if set in config)</small>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="dry-run" name="dry_run">
+                                <span><i class="fas fa-eye"></i> Dry Run (Preview only, don't download)</span>
+                            </label>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-play"></i> Start Download
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="validatePrerequisites()">
+                                <i class="fas fa-check-circle"></i> Validate Prerequisites
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Component Info Card -->
+                <div class="card" id="component-info" style="display: none;">
+                    <h3><i class="fas fa-info-circle"></i> Component Information</h3>
+                    <div id="component-details"></div>
+                </div>
+            </div>
+
+            <!-- Tab Content: Active Downloads -->
+            <div id="active-downloads" class="tab-content">
+                <div class="card">
+                    <h2><i class="fas fa-spinner fa-spin"></i> Active Downloads</h2>
+                    <div id="active-downloads-list">
+                        <p class="empty-state">No active downloads</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Content: History -->
+            <div id="history" class="tab-content">
+                <div class="card">
+                    <h2><i class="fas fa-history"></i> Download History</h2>
+                    <div id="history-list">
+                        <p class="empty-state">No download history</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal: System Info -->
+    <div id="system-info-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-server"></i> System Information</h2>
+                <button class="close-btn" onclick="closeModal('system-info-modal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="system-info-content">
+                <div class="loading">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Configuration -->
+    <div id="config-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-cog"></i> Configuration</h2>
+                <button class="close-btn" onclick="closeModal('config-modal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="config-form" onsubmit="saveConfig(event)">
+                    <div class="form-group">
+                        <label for="config-content">Configuration File Content</label>
+                        <textarea id="config-content" rows="15"
+                                  placeholder="# CP4I Downloader Configuration&#10;CP4I_ENTITLEMENT_KEY=your_key_here&#10;..."></textarea>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Configuration
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="loadConfig()">
+                            <i class="fas fa-sync"></i> Reload
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Download Details -->
+    <div id="download-details-modal" class="modal">
+        <div class="modal-content modal-large">
+            <div class="modal-header">
+                <h2><i class="fas fa-info-circle"></i> Download Details</h2>
+                <button class="close-btn" onclick="closeModal('download-details-modal')">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="download-details-content">
+                <div class="loading">Loading...</div>
+            </div>
+        </div>
+    <!-- Retry modal removed - retry now uses original configuration directly -->
+
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container"></div>
+
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

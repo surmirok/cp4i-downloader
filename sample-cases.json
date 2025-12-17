@@ -1,0 +1,50 @@
+[
+  {
+    "name": "ibm-integration-platform-navigator",
+    "description": "Platform Navigator",
+    "typical_size": "~15GB",
+    "versions": ["7.3.2", "7.3.1", "7.3.0", "7.2.5"]
+  },
+  {
+    "name": "ibm-apiconnect",
+    "description": "API Connect",
+    "typical_size": "~25GB",
+    "versions": ["10.0.8", "10.0.7", "10.0.6", "10.0.5"]
+  },
+  {
+    "name": "ibm-mq",
+    "description": "MQ Advanced",
+    "typical_size": "~8GB",
+    "versions": ["9.3.5", "9.3.4", "9.3.3", "9.3.2"]
+  },
+  {
+    "name": "ibm-eventstreams",
+    "description": "Event Streams (Kafka)",
+    "typical_size": "~12GB",
+    "versions": ["11.4.0", "11.3.2", "11.3.1", "11.3.0"]
+  },
+  {
+    "name": "ibm-app-connect",
+    "description": "App Connect Enterprise",
+    "typical_size": "~10GB",
+    "versions": ["12.0.11", "12.0.10", "12.0.9", "12.0.8"]
+  },
+  {
+    "name": "ibm-datapower-operator",
+    "description": "DataPower Gateway",
+    "typical_size": "~5GB",
+    "versions": ["1.11.0", "1.10.3", "1.10.2", "1.10.1"]
+  },
+  {
+    "name": "ibm-aspera-hsts-operator",
+    "description": "Aspera High-Speed Transfer Server",
+    "typical_size": "~3GB",
+    "versions": ["1.5.11", "1.5.10", "1.5.9"]
+  },
+  {
+    "name": "ibm-cloud-databases-redis",
+    "description": "Cloud Databases for Redis",
+    "typical_size": "~2GB",
+    "versions": ["1.6.8", "1.6.7", "1.6.6"]
+  }
+]
