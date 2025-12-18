@@ -1,9 +1,45 @@
 # CP4I Component Downloader
 
-A comprehensive, enterprise-grade bash script for downloading IBM Cloud Pak for Integration (CP4I) components with advanced features including automatic GitHub fallback, retry logic, progress tracking, and notification support.
+A comprehensive, enterprise-grade solution for downloading IBM Cloud Pak for Integration (CP4I) components with both **Web UI** and **CLI** interfaces. Features include automatic GitHub fallback, retry logic, progress tracking, and notification support.
+
+## 🖼️ UI Screenshots
+
+### Web Interface Overview
+
+<div align="center">
+
+#### New Download Form
+![New Download](screenshots/new-download.png)
+*User-friendly form for configuring and starting new downloads*
+
+#### Active Downloads
+![Active Downloads](screenshots/active-downloads.png)
+*Real-time monitoring of running downloads with progress tracking*
+
+#### Download History
+![History](screenshots/history.png)
+*Complete history with status, logs, and reports*
+
+#### View Logs
+![View Logs](screenshots/view-logs.png)
+*Detailed log viewer with real-time updates*
+
+#### Summary Report
+![Summary Report](screenshots/summary-report.png)
+*Comprehensive download statistics and information*
+
+</div>
+
+> **Note:** To add screenshots, place your images in the `screenshots/` directory with the following names:
+> - `new-download.png` - New download form
+> - `active-downloads.png` - Active downloads tab
+> - `history.png` - History tab
+> - `view-logs.png` - Log viewer modal
+> - `summary-report.png` - Summary report modal
 
 ## 📋 Table of Contents
 
+- [UI Screenshots](#ui-screenshots)
 - [Features](#features)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)

@@ -34,9 +34,26 @@ function showTab(tabName) {
     // Add active class to clicked button
     event.target.closest('.tab-btn').classList.add('active');
     
+    // Reset form when switching to new-download tab
+    if (tabName === 'new-download') {
+        resetDownloadForm();
+    }
+    
     // Refresh data for the tab
     if (tabName === 'active-downloads' || tabName === 'history') {
         loadDownloads();
+    }
+}
+
+// Reset download form to blank state
+function resetDownloadForm() {
+    const form = document.getElementById('download-form');
+    if (form) {
+        form.reset();
+        // Clear component info display
+        document.getElementById('component-info').style.display = 'none';
+        // Reset component select to placeholder
+        document.getElementById('component').selectedIndex = 0;
     }
 }
 
@@ -100,25 +117,36 @@ function updateVersions() {
         </div>
     `;
     infoDiv.style.display = 'block';
+    
+    // Update name field when component changes
+    updateNameField();
+}
+
+// Update name field based on component and version
+function updateNameField() {
+    const componentSelect = document.getElementById('component');
+    const versionInput = document.getElementById('version');
+    const nameInput = document.getElementById('name');
+    
+    const selectedOption = componentSelect.options[componentSelect.selectedIndex];
+    if (selectedOption && selectedOption.dataset.component && versionInput.value) {
+        const component = JSON.parse(selectedOption.dataset.component);
+        const shortName = component.name.replace('ibm-', '').replace('-operator', '');
+        nameInput.value = `${shortName}-${versionInput.value}`;
+    }
 }
 
 // Auto-fill name field when version is entered
 document.addEventListener('DOMContentLoaded', () => {
     const versionInput = document.getElementById('version');
     const componentSelect = document.getElementById('component');
-    const nameInput = document.getElementById('name');
     
     if (versionInput) {
-        versionInput.addEventListener('input', () => {
-            const selectedOption = componentSelect.options[componentSelect.selectedIndex];
-            if (selectedOption && selectedOption.dataset.component && versionInput.value) {
-                const component = JSON.parse(selectedOption.dataset.component);
-                const shortName = component.name.replace('ibm-', '').replace('-operator', '');
-                if (!nameInput.value || nameInput.value.startsWith(shortName)) {
-                    nameInput.value = `${shortName}-${versionInput.value}`;
-                }
-            }
-        });
+        versionInput.addEventListener('input', updateNameField);
+    }
+    
+    if (componentSelect) {
+        componentSelect.addEventListener('change', updateNameField);
     }
 });
 

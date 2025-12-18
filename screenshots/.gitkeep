@@ -1,0 +1,7 @@
+# This file ensures the screenshots directory is tracked by Git
+# Add your screenshot images here:
+# - new-download.png
+# - active-downloads.png
+# - history.png
+# - view-logs.png
+# - summary-report.png
