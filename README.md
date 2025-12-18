@@ -1,5 +1,10 @@
 # CP4I Component Downloader
 
+[![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)](https://github.com/surmirok/cp4i-downloader)
+[![License](https://img.shields.io/badge/license-Apache%202.0-green.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Bash](https://img.shields.io/badge/bash-4.0+-orange.svg)](https://www.gnu.org/software/bash/)
+
 A comprehensive, enterprise-grade solution for downloading IBM Cloud Pak for Integration (CP4I) components with both **Web UI** and **CLI** interfaces. Features include automatic GitHub fallback, retry logic, progress tracking, and notification support.
 
 ## 🖼️ UI Screenshots
@@ -37,8 +42,70 @@ A comprehensive, enterprise-grade solution for downloading IBM Cloud Pak for Int
 > - `view-logs.png` - Log viewer modal
 > - `summary-report.png` - Summary report modal
 
+## 🚀 Quick Start
+
+### Web Interface (Recommended)
+```bash
+# Clone the repository
+git clone https://github.com/surmirok/cp4i-downloader.git
+cd cp4i-downloader
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Start the web application
+python app.py
+
+# Open browser and navigate to
+# http://localhost:5000
+```
+
+### Command Line Interface
+```bash
+# Make script executable
+chmod +x cp4i_downloader.sh
+
+# Run a download
+./cp4i_downloader.sh \
+  --component ibm-integration-platform-navigator \
+  --version 7.3.2 \
+  --name pn-7.3.2
+```
+
+## 🌐 Web Interface
+
+This tool provides a modern web-based interface for easy management of CP4I downloads.
+
+**Features:**
+- 🖱️ **User-Friendly UI** - No command-line expertise required
+- 📊 **Real-Time Monitoring** - Live progress tracking and status updates
+- 📝 **Download History** - Complete audit trail with logs and reports
+- 🔄 **One-Click Retry** - Easily retry failed downloads
+- 🎯 **Dry-Run Mode** - Test configurations without actual mirroring
+- ⚙️ **Flexible Configuration** - Configure paths and settings per download
+
+**For detailed web interface documentation, see:**
+- [Web App User Guide](WEB_APP_README.md) - Complete web interface documentation
+- [Solution Summary](SOLUTION_SUMMARY.md) - Feature overview and benefits
+- [Architecture Diagrams](ARCHITECTURE_DIAGRAMS.md) - System architecture and flows
+
+### CLI vs Web UI Comparison
+
+| Feature | CLI | Web UI |
+|---------|-----|--------|
+| **Ease of Use** | Command-line knowledge required | Point-and-click interface |
+| **Progress Monitoring** | Manual log checking | Real-time dashboard |
+| **Download History** | File-based | Searchable history tab |
+| **Retry Failed Downloads** | Manual command | One-click button |
+| **Multiple Downloads** | Multiple terminal sessions | Tabbed interface |
+| **Log Viewing** | Terminal/text editor | Built-in log viewer |
+| **Reports** | Text files | Formatted modal display |
+| **Best For** | Automation, scripts, CI/CD | Interactive use, testing |
+
 ## 📋 Table of Contents
 
+- [Quick Start](#quick-start)
+- [Web Interface](#web-interface)
 - [UI Screenshots](#ui-screenshots)
 - [Features](#features)
 - [Prerequisites](#prerequisites)
@@ -101,11 +168,20 @@ The script automatically validates these prerequisites:
 
 ## 📥 Installation
 
-### 1. Download the Script
+### 1. Clone the Repository
 
 ```bash
-# Clone or download the script
-curl -O https://your-repo/cp4i_downloader.sh
+# Clone the repository
+git clone https://github.com/surmirok/cp4i-downloader.git
+cd cp4i-downloader
+
+# Make script executable
+chmod +x cp4i_downloader.sh
+```
+
+**Or download just the script:**
+```bash
+curl -O https://raw.githubusercontent.com/surmirok/cp4i-downloader/main/cp4i_downloader.sh
 chmod +x cp4i_downloader.sh
 ```
 
@@ -657,8 +733,9 @@ For issues related to:
 
 ---
 
-**Script Version**: 2.0.0  
-**Last Updated**: December 2025  
-**Maintained by**: DevOps Team
+**Script Version**: 2.0.0
+**Last Updated**: December 2024
+**Repository**: https://github.com/surmirok/cp4i-downloader
+**Maintained by**: Suraj Mirokhe
 
-For the latest version and updates, check the repository.
+For the latest version and updates, visit the [GitHub repository](https://github.com/surmirok/cp4i-downloader).
